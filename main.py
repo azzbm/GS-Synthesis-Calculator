@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.font_manager import FontProperties
 import random
+import numpy as np
 import sys
 # 设置字体
 matplotlib.rcParams['font.sans-serif'] = ['SimHei']
@@ -74,7 +75,7 @@ if userinput:
     start_a, start_b, start_c = int(input("初始A:")), int(input("初始B:")), int(input("初始C（其实没用）:"))  # 初始数量
     target_a, target_b, target_c = int(input("期望A:")), int(input("期望B:")), int(input("期望C(9999为尽可能大）:"))
 else:
-    start_a, start_b, start_c = 330, 150, 0  # 初始数量
+    start_a, start_b, start_c = 530, 800, 0  # 初始数量
     target_a, target_b, target_c = 0, 66, 9999  # 期望数量（C如希望尽可能多输入9999）
 
 # 模拟三种策略
@@ -87,15 +88,18 @@ avg_a_a, avg_b_a, avg_c_a = sum(record_a_a) / len(record_a_a), sum(record_b_a) /
 avg_a_b, avg_b_b, avg_c_b = sum(record_a_b) / len(record_a_b), sum(record_b_b) / len(record_b_b), sum(record_c_b) / len(record_c_b)
 avg_a_d, avg_b_d, avg_c_d = sum(record_a_d) / len(record_a_d), sum(record_b_d) / len(record_b_d), sum(record_c_d) / len(record_c_d)
 
+# 计算方差
+var_c_a = np.var(record_c_a)
+var_c_b = np.var(record_c_b)
+var_c_d = np.var(record_c_d)
 
-#控制台输出
+# 控制台输出，包含方差
 print("方法A (25%返还):")
-print(f"A均值: {avg_a_a}, B均值: {avg_b_a}, C均值: {avg_c_a}")
+print(f"A均值: {avg_a_a}, B均值: {avg_b_a}, C均值: {avg_c_a}, C方差: {var_c_a}")
 print("\n方法B (10%双倍产出):")
-print(f"A均值: {avg_a_b}, B均值: {avg_b_b}, C均值: {avg_c_b}")
-print("\n方法D (动态算法):")
-print(f"A均值: {avg_a_d}, B均值: {avg_b_d}, C均值: {avg_c_d}")
-
+print(f"A均值: {avg_a_b}, B均值: {avg_b_b}, C均值: {avg_c_b}, C方差: {var_c_b}")
+print("\n方法D (动态策略):")
+print(f"A均值: {avg_a_d}, B均值: {avg_b_d}, C均值: {avg_c_d}, C方差: {var_c_d}")
 # 折线图绘制
 iterations_range = range(1, 1001)
 # 绘制图表
